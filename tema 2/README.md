@@ -1,6 +1,6 @@
 # T2.A2.1 – Filtros Espaciales y en el Dominio de la Frecuencia
 
-> **Curso:** Visión por Computadora · **Tema 2** · Actividad T2.A2.1
+> **Curso:** Procesamiento de Imágenes y Visión Computacional · **Tema 2** · Actividad A2.1 Practicando Operaciones
 
 ---
 
