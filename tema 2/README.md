@@ -1,6 +1,6 @@
 # T2.A2.1 – Filtros Espaciales y en el Dominio de la Frecuencia
 
-> **Curso:** Procesamiento de Imágenes y Visión Computacional · **Tema 2** · Actividad A2.1 Practicando Operaciones
+> **Curso:** Inteligencia Artificial: Redes Neuronales Convolucionales Aplicadas a la Visión Computacional · **Tema 2** · Actividad A2.1 Practicando Operaciones
 
 ---
 
