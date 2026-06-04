@@ -15,20 +15,6 @@ T2_A2_1_Filtros/
 
 ---
 
-## ¿Por qué `.ipynb` y no `.py`?
-
-| Criterio | `.ipynb` ✅ | `.py` |
-|---|---|---|
-| Visualizaciones inline | Sí | Requiere ventanas externas |
-| Celdas de reflexión / Markdown | Sí, integradas | No |
-| Ejecución paso a paso | Sí | No |
-| Portafolio / reporte en un solo archivo | Sí | No |
-| Compatibilidad con Google Colab | Nativa | Requiere conversión |
-
-El notebook es el formato ideal para actividades exploratorias que combinan código, gráficas y análisis escrito.
-
----
-
 ## Requisitos
 
 ### Python
