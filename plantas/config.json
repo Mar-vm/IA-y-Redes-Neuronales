@@ -1,0 +1,21 @@
+{
+  "nombre": "AgroScan",
+  "subtitulo": "Detección de enfermedades en cultivos",
+  "dataset": "PlantVillage",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#173404",
+    "primaryDark": "#27500A",
+    "accent": "#639922",
+    "surface": "#EAF3DE",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#3B6D11",
+    "successSurface": "#EAF3DE",
+    "warning": "#BA7517",
+    "warningSurface": "#FAEEDA",
+    "textOnPrimary": "#EAF3DE",
+    "background": "#F4FAF0"
+  },
+  "clases": {}
+}

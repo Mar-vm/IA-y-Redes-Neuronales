@@ -1,0 +1,36 @@
+{
+  "nombre": "CrackDetect",
+  "subtitulo": "Inspección estructural de concreto",
+  "dataset": "Concrete Crack Detection",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#2C2C2A",
+    "primaryDark": "#444441",
+    "accent": "#888780",
+    "surface": "#F1EFE8",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#27500A",
+    "successSurface": "#EAF3DE",
+    "warning": "#BA7517",
+    "warningSurface": "#FAEEDA",
+    "textOnPrimary": "#F1EFE8",
+    "background": "#F5F4F0"
+  },
+  "clases": {
+    "Negative": {
+      "nombre": "Sin grieta",
+      "tipo": "Óptimo",
+      "urgencia": "OK",
+      "descripcion": "Superficie en buen estado estructural. Sin fisuras detectadas.",
+      "color": "#27500A"
+    },
+    "Positive": {
+      "nombre": "Grieta detectada",
+      "tipo": "Defecto",
+      "urgencia": "REPARAR",
+      "descripcion": "Fisura detectada. Requiere evaluación y reparación estructural.",
+      "color": "#A32D2D"
+    }
+  }
+}

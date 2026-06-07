@@ -1,0 +1,36 @@
+{
+  "nombre": "PneumoScan",
+  "subtitulo": "Detección de neumonía en radiografías",
+  "dataset": "Chest X-Ray Pneumonia",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#2C2C2A",
+    "primaryDark": "#444441",
+    "accent": "#185FA5",
+    "surface": "#F1EFE8",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#27500A",
+    "successSurface": "#EAF3DE",
+    "warning": "#BA7517",
+    "warningSurface": "#FAEEDA",
+    "textOnPrimary": "#F1EFE8",
+    "background": "#F5F4F0"
+  },
+  "clases": {
+    "NORMAL": {
+      "nombre": "Normal",
+      "tipo": "Sano",
+      "urgencia": "NORMAL",
+      "descripcion": "Radiografía sin indicios de infección pulmonar.",
+      "color": "#27500A"
+    },
+    "PNEUMONIA": {
+      "nombre": "Neumonía",
+      "tipo": "Patología",
+      "urgencia": "URGENTE",
+      "descripcion": "Opacidades compatibles con neumonía. Consultar médico de inmediato.",
+      "color": "#A32D2D"
+    }
+  }
+}

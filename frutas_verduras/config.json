@@ -1,0 +1,64 @@
+{
+  "nombre": "FreshCheck",
+  "subtitulo": "Control de calidad en frutas y verduras",
+  "dataset": "Fruits Fresh and Rotten",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#412402",
+    "primaryDark": "#633806",
+    "accent": "#EF9F27",
+    "surface": "#FAEEDA",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#3B6D11",
+    "successSurface": "#EAF3DE",
+    "warning": "#BA7517",
+    "warningSurface": "#FAEEDA",
+    "textOnPrimary": "#FAEEDA",
+    "background": "#FDF8F2"
+  },
+  "clases": {
+    "freshapple": {
+      "nombre": "Manzana fresca",
+      "tipo": "Fresco",
+      "urgencia": "OK",
+      "descripcion": "En óptimas condiciones para consumo.",
+      "color": "#3B6D11"
+    },
+    "rottenapple": {
+      "nombre": "Manzana podrida",
+      "tipo": "Podrido",
+      "urgencia": "RECHAZAR",
+      "descripcion": "Signos de descomposición. No apta para consumo.",
+      "color": "#A32D2D"
+    },
+    "freshbanana": {
+      "nombre": "Plátano fresco",
+      "tipo": "Fresco",
+      "urgencia": "OK",
+      "descripcion": "Maduro y en buen estado.",
+      "color": "#3B6D11"
+    },
+    "rottenbanana": {
+      "nombre": "Plátano podrido",
+      "tipo": "Podrido",
+      "urgencia": "RECHAZAR",
+      "descripcion": "Descomposición avanzada.",
+      "color": "#A32D2D"
+    },
+    "freshorange": {
+      "nombre": "Naranja fresca",
+      "tipo": "Fresco",
+      "urgencia": "OK",
+      "descripcion": "En óptimas condiciones.",
+      "color": "#3B6D11"
+    },
+    "rottenorange": {
+      "nombre": "Naranja podrida",
+      "tipo": "Podrido",
+      "urgencia": "RECHAZAR",
+      "descripcion": "Signos de podredumbre.",
+      "color": "#A32D2D"
+    }
+  }
+}

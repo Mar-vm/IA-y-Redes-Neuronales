@@ -1,0 +1,99 @@
+{
+  "nombre": "AtmoScan",
+  "subtitulo": "Reconocimiento de condiciones climáticas",
+  "dataset": "Weather Image Recognition",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#042C53",
+    "primaryDark": "#185FA5",
+    "accent": "#85B7EB",
+    "surface": "#E6F1FB",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#0F6E56",
+    "successSurface": "#E1F5EE",
+    "warning": "#BA7517",
+    "warningSurface": "#FAEEDA",
+    "textOnPrimary": "#E6F1FB",
+    "background": "#F0F6FC"
+  },
+  "clases": {
+    "dew": {
+      "nombre": "Rocío",
+      "tipo": "Fenómeno",
+      "urgencia": "",
+      "descripcion": "Condensación sobre superficies. Visibilidad normal.",
+      "color": "#85B7EB"
+    },
+    "fogsmog": {
+      "nombre": "Niebla / Smog",
+      "tipo": "Alerta",
+      "urgencia": "PRECAUCION",
+      "descripcion": "Visibilidad reducida. Conducir con precaución.",
+      "color": "#BA7517"
+    },
+    "frost": {
+      "nombre": "Escarcha",
+      "tipo": "Alerta",
+      "urgencia": "PRECAUCION",
+      "descripcion": "Temperatura bajo cero. Superficies resbaladizas.",
+      "color": "#7F77DD"
+    },
+    "glaze": {
+      "nombre": "Lluvia helada",
+      "tipo": "Alerta",
+      "urgencia": "PELIGRO",
+      "descripcion": "Capa de hielo sobre superficies. Alta peligrosidad.",
+      "color": "#E24B4A"
+    },
+    "hail": {
+      "nombre": "Granizo",
+      "tipo": "Alerta",
+      "urgencia": "PELIGRO",
+      "descripcion": "Precipitación de hielo. Puede causar daños materiales.",
+      "color": "#E24B4A"
+    },
+    "lightning": {
+      "nombre": "Relámpago",
+      "tipo": "Alerta",
+      "urgencia": "PELIGRO",
+      "descripcion": "Tormenta eléctrica. Refugiarse en interiores.",
+      "color": "#EF9F27"
+    },
+    "rain": {
+      "nombre": "Lluvia",
+      "tipo": "Normal",
+      "urgencia": "",
+      "descripcion": "Precipitación de agua. Usar ropa impermeable.",
+      "color": "#378ADD"
+    },
+    "rainbow": {
+      "nombre": "Arcoíris",
+      "tipo": "Normal",
+      "urgencia": "",
+      "descripcion": "Fenómeno óptico tras la lluvia. Sin riesgo.",
+      "color": "#1D9E75"
+    },
+    "rime": {
+      "nombre": "Escarcha dura",
+      "tipo": "Alerta",
+      "urgencia": "PRECAUCION",
+      "descripcion": "Hielo opaco. Temperatura muy baja.",
+      "color": "#7F77DD"
+    },
+    "sandstorm": {
+      "nombre": "Tormenta de arena",
+      "tipo": "Alerta",
+      "urgencia": "PELIGRO",
+      "descripcion": "Visibilidad casi nula. No salir.",
+      "color": "#BA7517"
+    },
+    "snow": {
+      "nombre": "Nieve",
+      "tipo": "Alerta",
+      "urgencia": "PRECAUCION",
+      "descripcion": "Acumulación posible en vías.",
+      "color": "#85B7EB"
+    }
+  }
+}

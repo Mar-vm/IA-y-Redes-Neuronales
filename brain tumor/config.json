@@ -1,0 +1,50 @@
+{
+  "nombre": "NeuroScan",
+  "subtitulo": "Clasificación de tumores cerebrales",
+  "dataset": "Brain Tumor MRI",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#26215C",
+    "primaryDark": "#3C3489",
+    "accent": "#7F77DD",
+    "surface": "#EEEDFE",
+    "danger": "#D85A30",
+    "dangerSurface": "#FAECE7",
+    "success": "#0F6E56",
+    "successSurface": "#E1F5EE",
+    "warning": "#F0997B",
+    "warningSurface": "#FAECE7",
+    "textOnPrimary": "#EEEDFE",
+    "background": "#F7F6FE"
+  },
+  "clases": {
+    "glioma": {
+      "nombre": "Glioma",
+      "tipo": "Maligno",
+      "urgencia": "URGENTE",
+      "descripcion": "Tumor originado en células gliales. Requiere evaluación neuroquirúrgica inmediata.",
+      "color": "#D85A30"
+    },
+    "meningioma": {
+      "nombre": "Meningioma",
+      "tipo": "Benigno",
+      "urgencia": "CONSULTAR",
+      "descripcion": "Tumor en membranas cerebrales. Generalmente de crecimiento lento.",
+      "color": "#BA7517"
+    },
+    "notumor": {
+      "nombre": "Sin tumor detectado",
+      "tipo": "Normal",
+      "urgencia": "NORMAL",
+      "descripcion": "No se detectaron masas anómalas en la resonancia magnética.",
+      "color": "#0F6E56"
+    },
+    "pituitary": {
+      "nombre": "Tumor pituitario",
+      "tipo": "Variable",
+      "urgencia": "CONSULTAR",
+      "descripcion": "Tumor en glándula pituitaria. Afecta el sistema hormonal.",
+      "color": "#7F77DD"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "nombre": "EcoSort",
+  "subtitulo": "Clasificación inteligente de residuos",
+  "dataset": "Garbage Classification",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#173404",
+    "primaryDark": "#3B6D11",
+    "accent": "#97C459",
+    "surface": "#EAF3DE",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#27500A",
+    "successSurface": "#EAF3DE",
+    "warning": "#185FA5",
+    "warningSurface": "#E6F1FB",
+    "textOnPrimary": "#EAF3DE",
+    "background": "#F2F9EC"
+  },
+  "clases": {
+    "cardboard": {
+      "nombre": "Cartón",
+      "tipo": "Reciclable",
+      "urgencia": "RECICLAR",
+      "descripcion": "Depositar en contenedor amarillo o de reciclaje mixto.",
+      "color": "#BA7517"
+    },
+    "glass": {
+      "nombre": "Vidrio",
+      "tipo": "Reciclable",
+      "urgencia": "RECICLAR",
+      "descripcion": "Depositar en contenedor verde.",
+      "color": "#378ADD"
+    },
+    "metal": {
+      "nombre": "Metal",
+      "tipo": "Reciclable",
+      "urgencia": "RECICLAR",
+      "descripcion": "Latas y metales en contenedor amarillo.",
+      "color": "#888780"
+    },
+    "paper": {
+      "nombre": "Papel",
+      "tipo": "Reciclable",
+      "urgencia": "RECICLAR",
+      "descripcion": "Depositar en contenedor azul.",
+      "color": "#185FA5"
+    },
+    "plastic": {
+      "nombre": "Plástico",
+      "tipo": "Reciclable",
+      "urgencia": "RECICLAR",
+      "descripcion": "Depositar en contenedor amarillo.",
+      "color": "#97C459"
+    },
+    "trash": {
+      "nombre": "Basura general",
+      "tipo": "No reciclable",
+      "urgencia": "RESIDUO",
+      "descripcion": "Residuo no recuperable. Contenedor gris o negro.",
+      "color": "#444441"
+    }
+  }
+}

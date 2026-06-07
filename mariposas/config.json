@@ -1,0 +1,21 @@
+{
+  "nombre": "LepidoScan",
+  "subtitulo": "Identificación de mariposas y polillas",
+  "dataset": "Butterflies and Moths",
+  "version": "1.0.0",
+  "tema": {
+    "primary": "#04342C",
+    "primaryDark": "#085041",
+    "accent": "#1D9E75",
+    "surface": "#E1F5EE",
+    "danger": "#A32D2D",
+    "dangerSurface": "#FCEBEB",
+    "success": "#0F6E56",
+    "successSurface": "#E1F5EE",
+    "warning": "#AFA9EC",
+    "warningSurface": "#EEEDFE",
+    "textOnPrimary": "#E1F5EE",
+    "background": "#F2FBF7"
+  },
+  "clases": {}
+}
