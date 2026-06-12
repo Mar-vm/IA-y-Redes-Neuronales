@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlantVillage — Diagnóstico de Plantas</title>
+<style>
+  /* ── Tokens ─────────────────────────────────────────────── */
+  :root {
+    --verde-oscuro:  #1a3d2b;
+    --verde-medio:   #2d6a4f;
+    --verde-claro:   #52b788;
+    --verde-palido:  #b7e4c7;
+    --crema:         #f8f5ef;
+    --tierra:        #8b4513;
+    --tierra-claro:  #c8956c;
+    --texto:         #1a2e1a;
+    --texto-suave:   #5a7a5a;
+    --blanco:        #ffffff;
+    --sombra:        0 4px 24px rgba(26,61,43,.12);
+    --radio:         16px;
+    --radio-sm:       8px;
+    --transicion:    .25s cubic-bezier(.4,0,.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ──────────────────────────────────────────────── */
+  header {
+    background: var(--verde-oscuro);
+    color: var(--blanco);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  }
+  .logo-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 6px rgba(82,183,136,.5));
+  }
+  .logo-text h1 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.1;
+  }
+  .logo-text p {
+    font-size: .7rem;
+    opacity: .65;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .status-pill {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .72rem;
+    background: rgba(255,255,255,.1);
+    padding: .3rem .75rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255,255,255,.15);
+    white-space: nowrap;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #aaa;
+    transition: background var(--transicion);
+  }
+  .dot.ok   { background: #52b788; box-shadow: 0 0 0 3px rgba(82,183,136,.25); }
+  .dot.err  { background: #e74c3c; }
+
+  /* ── Main ────────────────────────────────────────────────── */
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* ── Upload card ─────────────────────────────────────────── */
+  .card {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+
+  .drop-zone {
+    border: 2.5px dashed var(--verde-palido);
+    border-radius: var(--radio);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color var(--transicion), background var(--transicion);
+    position: relative;
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--verde-claro);
+    background: rgba(82,183,136,.04);
+  }
+  .drop-zone input[type=file] {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+  }
+  .drop-icon {
+    font-size: 3rem;
+    margin-bottom: .75rem;
+    display: block;
+    filter: saturate(.8);
+  }
+  .drop-zone h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--verde-medio);
+    margin-bottom: .35rem;
+  }
+  .drop-zone p {
+    font-size: .8rem;
+    color: var(--texto-suave);
+  }
+  .btn-file {
+    display: inline-block;
+    margin-top: .9rem;
+    background: var(--verde-medio);
+    color: var(--blanco);
+    padding: .55rem 1.4rem;
+    border-radius: 99px;
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+    pointer-events: none;
+  }
+
+  /* ── Preview ─────────────────────────────────────────────── */
+  #preview-section {
+    display: none;
+    padding: 1.25rem;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  #preview-section.visible { display: flex; }
+  #preview-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: var(--radio-sm);
+    border: 2px solid var(--verde-palido);
+    flex-shrink: 0;
+  }
+  .preview-meta {
+    flex: 1;
+    min-width: 0;
+  }
+  .preview-meta .file-name {
+    font-size: .85rem;
+    font-weight: 600;
+    word-break: break-all;
+    color: var(--texto);
+    margin-bottom: .25rem;
+  }
+  .preview-meta .file-size {
+    font-size: .75rem;
+    color: var(--texto-suave);
+    margin-bottom: .8rem;
+  }
+  #btn-predict {
+    width: 100%;
+    background: var(--verde-medio);
+    color: var(--blanco);
+    border: none;
+    padding: .75rem;
+    border-radius: var(--radio-sm);
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: .02em;
+    cursor: pointer;
+    transition: background var(--transicion), transform .1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+  }
+  #btn-predict:hover   { background: var(--verde-oscuro); }
+  #btn-predict:active  { transform: scale(.97); }
+  #btn-predict:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ── Loader ──────────────────────────────────────────────── */
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Results ─────────────────────────────────────────────── */
+  #results-section { display: none; }
+  #results-section.visible { display: block; }
+
+  .results-header {
+    padding: 1rem 1.25rem .75rem;
+    border-bottom: 1px solid #e8f4ee;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .results-header h3 {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--verde-oscuro);
+  }
+  .results-header .badge {
+    margin-left: auto;
+    font-size: .68rem;
+    background: var(--verde-palido);
+    color: var(--verde-oscuro);
+    padding: .2rem .6rem;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+
+  .result-item {
+    padding: .85rem 1.25rem;
+    border-bottom: 1px solid #f0f7f3;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .2rem .75rem;
+    align-items: center;
+    transition: background var(--transicion);
+  }
+  .result-item:last-child { border-bottom: none; }
+  .result-item:hover { background: rgba(82,183,136,.04); }
+
+  .result-rank {
+    grid-row: 1 / 3;
+    grid-column: 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--verde-palido);
+    width: 28px;
+    text-align: center;
+  }
+  .result-item {
+    grid-template-columns: 28px 1fr auto;
+  }
+
+  .result-name {
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--texto);
+    grid-column: 2;
+  }
+  .result-name.top { color: var(--verde-medio); font-size: .95rem; }
+
+  .result-raw {
+    font-size: .7rem;
+    color: var(--texto-suave);
+    grid-column: 2;
+    font-family: monospace;
+  }
+
+  .result-pct {
+    font-size: .95rem;
+    font-weight: 800;
+    grid-row: 1 / 3;
+    grid-column: 3;
+    align-self: center;
+    color: var(--verde-medio);
+  }
+  .result-pct.top { font-size: 1.1rem; color: var(--verde-oscuro); }
+
+  .bar-wrap {
+    height: 4px;
+    background: #e8f4ee;
+    border-radius: 99px;
+    grid-column: 2 / 4;
+    overflow: hidden;
+    margin-top: -.1rem;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--verde-claro);
+    border-radius: 99px;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .bar-fill.sano { background: #27ae60; }
+  .bar-fill.top  { background: var(--verde-oscuro); }
+
+  /* ── Top badge ───────────────────────────────────────────── */
+  .top-banner {
+    background: linear-gradient(135deg, var(--verde-oscuro), var(--verde-medio));
+    color: var(--blanco);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+  }
+  .top-banner .icon { font-size: 1.8rem; flex-shrink: 0; }
+  .top-banner .label { font-size: .7rem; opacity: .7; text-transform: uppercase; letter-spacing: .07em; }
+  .top-banner .name  { font-size: 1rem; font-weight: 700; margin-top: .1rem; }
+  .top-banner .conf  { margin-left: auto; font-size: 1.6rem; font-weight: 800; line-height: 1; }
+  .top-banner .conf small { display: block; font-size: .65rem; opacity: .65; text-align: right; font-weight: 400; }
+
+  /* ── Error ───────────────────────────────────────────────── */
+  .error-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6cb;
+    border-radius: var(--radio-sm);
+    padding: 1rem 1.25rem;
+    margin: 1rem 1.25rem;
+    font-size: .82rem;
+    color: #721c24;
+    display: flex;
+    gap: .5rem;
+    align-items: flex-start;
+  }
+
+  /* ── Info footer ─────────────────────────────────────────── */
+  .info-card {
+    background: var(--blanco);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 1.1rem 1.25rem;
+    font-size: .78rem;
+    color: var(--texto-suave);
+    line-height: 1.6;
+  }
+  .info-card h4 {
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--verde-medio);
+    margin-bottom: .4rem;
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    margin-top: .6rem;
+  }
+  .chip {
+    background: var(--verde-palido);
+    color: var(--verde-oscuro);
+    padding: .2rem .6rem;
+    border-radius: 99px;
+    font-size: .7rem;
+    font-weight: 600;
+  }
+
+  /* ── Mobile tweaks ───────────────────────────────────────── */
+  @media (max-width: 480px) {
+    main { padding: 1rem .75rem 2.5rem; gap: 1rem; }
+    #preview-section { flex-direction: column; align-items: stretch; }
+    #preview-img { width: 100%; height: 200px; }
+    .drop-zone { padding: 2rem 1rem; }
+    .top-banner .conf { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo-icon">🌿</span>
+  <div class="logo-text">
+    <h1>PlantVillage</h1>
+    <p>Diagnóstico de Plantas con IA</p>
+  </div>
+  <div class="status-pill">
+    <span class="dot" id="status-dot"></span>
+    <span id="status-text">Verificando…</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- Upload -->
+  <div class="card">
+    <div class="drop-zone" id="drop-zone">
+      <input type="file" id="file-input" accept="image/*">
+      <span class="drop-icon">📷</span>
+      <h2>Sube una foto de la hoja</h2>
+      <p>Arrastra y suelta aquí, o selecciona desde tu galería</p>
+      <span class="btn-file">Elegir imagen</span>
+    </div>
+
+    <div id="preview-section">
+      <img id="preview-img" src="" alt="Vista previa">
+      <div class="preview-meta">
+        <div class="file-name" id="file-name">—</div>
+        <div class="file-size" id="file-size">—</div>
+        <button id="btn-predict" onclick="predict()">
+          <span id="btn-label">🔍 Analizar planta</span>
+          <span class="spinner" id="spinner"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="results-section">
+    <div id="results-inner"></div>
+  </div>
+
+  <!-- Info -->
+  <div class="info-card">
+    <h4>📋 Sobre este modelo</h4>
+    Dataset PlantVillage · 38 clases · Transfer Learning (MobileNetV3 / EfficientNet-B2) · TecNM VIC04
+    <div class="chips" id="specs-chips">
+      <span class="chip">PyTorch</span>
+      <span class="chip">timm</span>
+      <span class="chip">54 306 imágenes</span>
+      <span class="chip">CPU / GPU</span>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const API = '';   // mismo origen — Flask en localhost:5000
+
+// ── Status check ──────────────────────────────────────────────
+async function checkStatus() {
+  const dot  = document.getElementById('status-dot');
+  const txt  = document.getElementById('status-text');
+  try {
+    const r = await fetch(`${API}/status`);
+    const d = await r.json();
+    if (d.loaded) {
+      dot.className = 'dot ok';
+      txt.textContent = 'Modelo listo';
+    } else {
+      dot.className = 'dot err';
+      txt.textContent = 'Modelo no cargado';
+    }
+  } catch {
+    dot.className = 'dot err';
+    txt.textContent = 'Servidor offline';
+  }
+}
+checkStatus();
+setInterval(checkStatus, 10000);
+
+// ── File handling ──────────────────────────────────────────────
+const fileInput  = document.getElementById('file-input');
+const dropZone   = document.getElementById('drop-zone');
+const prevSec    = document.getElementById('preview-section');
+const prevImg    = document.getElementById('preview-img');
+const fileName   = document.getElementById('file-name');
+const fileSize   = document.getElementById('file-size');
+const resultsSec = document.getElementById('results-section');
+
+fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f) handleFile(f);
+});
+
+function handleFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+
+  const reader = new FileReader();
+  reader.onload = ev => { prevImg.src = ev.target.result; };
+  reader.readAsDataURL(file);
+
+  fileName.textContent = file.name;
+  fileSize.textContent = `${(file.size / 1024).toFixed(1)} KB`;
+  prevSec.classList.add('visible');
+  resultsSec.classList.remove('visible');
+  window._selectedFile = file;
+}
+
+// ── Predict ────────────────────────────────────────────────────
+async function predict() {
+  if (!window._selectedFile) return;
+
+  const btn     = document.getElementById('btn-predict');
+  const label   = document.getElementById('btn-label');
+  const spinner = document.getElementById('spinner');
+
+  btn.disabled        = true;
+  label.textContent   = 'Analizando…';
+  spinner.style.display = 'inline-block';
+
+  const form = new FormData();
+  form.append('image', window._selectedFile);
+
+  try {
+    const res  = await fetch(`${API}/predict`, { method: 'POST', body: form });
+    const data = await res.json();
+
+    if (data.error) {
+      showError(data.error);
+    } else {
+      renderResults(data.predicciones);
+    }
+  } catch (e) {
+    showError('No se pudo conectar con el servidor. ¿Está corriendo app.py?');
+  } finally {
+    btn.disabled          = false;
+    label.textContent     = '🔍 Analizar de nuevo';
+    spinner.style.display = 'none';
+  }
+}
+
+// ── Render results ─────────────────────────────────────────────
+function renderResults(preds) {
+  const container = document.getElementById('results-inner');
+  const top = preds[0];
+  const icon = top.sano ? '🌱' : '🔬';
+
+  let html = `
+    <div class="top-banner">
+      <span class="icon">${icon}</span>
+      <div>
+        <div class="label">Diagnóstico principal</div>
+        <div class="name">${esc(top.nombre)}</div>
+      </div>
+      <div class="conf">${top.confianza.toFixed(1)}<small>% conf.</small></div>
+    </div>
+    <div class="results-header">
+      <h3>Top 5 predicciones</h3>
+      <span class="badge">PlantVillage · 38 clases</span>
+    </div>`;
+
+  preds.forEach((p, i) => {
+    const isTop  = i === 0;
+    const barCls = isTop ? 'top' : (p.sano ? 'sano' : '');
+    html += `
+      <div class="result-item">
+        <span class="result-rank">${i + 1}</span>
+        <span class="result-name ${isTop ? 'top' : ''}">${esc(p.nombre)}</span>
+        <span class="result-pct ${isTop ? 'top' : ''}">${p.confianza.toFixed(1)}%</span>
+        <span class="result-raw">${esc(p.clase_raw)}</span>
+        <div class="bar-wrap">
+          <div class="bar-fill ${barCls}" style="width:${p.confianza}%"></div>
+        </div>
+      </div>`;
+  });
+
+  container.innerHTML = html;
+  resultsSec.classList.add('visible');
+  resultsSec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function showError(msg) {
+  const container = document.getElementById('results-inner');
+  container.innerHTML = `<div class="error-box">⚠️ <span>${esc(msg)}</span></div>`;
+  resultsSec.classList.add('visible');
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
